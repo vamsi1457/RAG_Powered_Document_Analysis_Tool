@@ -1,6 +1,0 @@
-Flask
-langchain
-langchain-google-genai
-langchain-community
-pypdf
-chromadb
