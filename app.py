@@ -25,7 +25,7 @@ def initialize_rag_pipeline():
 
         # 1. Load Google API Key
         print("Step 1: Loading Google API Key...")
-        api_key = os.getenv("GOOGLE_API_KEY")
+        api_key = "AIzaSyCs5N1cThVZPqjSzexYDWRJ4AiERs_mTlc"
         if not api_key:
             raise ValueError("🔴 CRITICAL: GOOGLE_API_KEY environment variable not found!")
         print("✅ API Key loaded successfully.")
@@ -107,4 +107,5 @@ if __name__ == '__main__':
     # For Render, it's better to let gunicorn handle the server
     # This block is mainly for local testing
     app.run(debug=False)
+
 
