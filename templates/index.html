@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Document Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS code is now integrated inside the <style> tags -->
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-color: #bb86fc;
+            --secondary-color: #03dac6;
+            --text-color: #e0e0e0;
+            --placeholder-color: #6c6c6c;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 5vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 0.2em;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-bottom: 2em;
+        }
+
+        main {
+            background-color: var(--surface-color);
+            padding: 2em;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        #qa-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+        }
+
+        #question {
+            width: 100%;
+            height: 120px;
+            padding: 1em;
+            border-radius: 8px;
+            border: 2px solid var(--placeholder-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1em;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        #question:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        #submit-btn {
+            padding: 1em;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: #000;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .loader-container {
+            margin-top: 2em;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .response-container {
+            margin-top: 2em;
+            padding: 1.5em;
+            border-radius: 8px;
+            background-color: var(--bg-color);
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .response-container h2 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            main {
+                padding: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>RAG-Powered Document Analysis Tool</h1>
+            <p class="subtitle">Ask questions about your documents and get instant, accurate answers.</p>
+        </header>
+
+        <main>
+            <form id="qa-form" method="post" action="/predict">
+                <textarea name="question" id="question" placeholder="Ask a question about the document...">{{ user_question }}</textarea>
+                <button type="submit" id="submit-btn">Get Answer</button>
+            </form>
+
+            <div class="loader-container" id="loader" style="display: none;">
+                <div class="loader"></div>
+            </div>
+
+            {% if prediction_text %}
+            <div class="response-container" id="response">
+                <h2>Answer:</h2>
+                <p>{{ prediction_text }}</p>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+
+    <!-- JavaScript code is now integrated inside the <script> tags -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('qa-form');
+            const loader = document.getElementById('loader');
+            const responseContainer = document.getElementById('response');
+
+            form.addEventListener('submit', () => {
+                // Hide any previous response
+                if (responseContainer) {
+                    responseContainer.style.display = 'none';
+                }
+                // Show the loader
+                loader.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
